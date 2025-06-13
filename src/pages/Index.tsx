@@ -1,46 +1,41 @@
 
-import { Search, MapPin, Star, Heart, Phone, Clock, Award } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Search, MapPin, Star, Heart, Phone, Clock, Award, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import TailorCard from "@/components/TailorCard";
+import JoinTailorForm from "@/components/JoinTailorForm";
+import { searchTailors, Tailor } from "@/utils/localStorage";
 
 const Index = () => {
-  const featuredTailors = [
-    {
-      id: 1,
-      name: "Meera's Designer Studio",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop",
-      rating: 4.8,
-      reviews: 127,
-      specialization: "Bridal Wear",
-      location: "Cidco, Aurangabad",
-      priceRange: "₹2000-8000",
-      languages: ["Hindi", "Marathi", "English"]
-    },
-    {
-      id: 2,
-      name: "Royal Mens Tailoring",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=300&fit=crop",
-      rating: 4.7,
-      reviews: 89,
-      specialization: "Men's Formal",
-      location: "Jalna Road, Aurangabad",
-      priceRange: "₹1500-5000",
-      languages: ["Hindi", "Marathi"]
-    },
-    {
-      id: 3,
-      name: "Silk Heritage Boutique",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=300&fit=crop",
-      rating: 4.9,
-      reviews: 203,
-      specialization: "Saree Blouses",
-      location: "Beed Bypass, Aurangabad",
-      priceRange: "₹800-3000",
-      languages: ["Hindi", "Marathi", "English"]
+  const [activeSection, setActiveSection] = useState("home");
+  const [searchService, setSearchService] = useState("");
+  const [searchLocation, setSearchLocation] = useState("");
+  const [searchResults, setSearchResults] = useState<Tailor[]>([]);
+  const [showResults, setShowResults] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const handleSearch = () => {
+    const results = searchTailors(searchService, searchLocation);
+    setSearchResults(results);
+    setShowResults(true);
+    setActiveSection("find-tailors");
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    setActiveSection(sectionId);
+    setMobileMenuOpen(false);
+    
+    if (sectionId === "home") {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
-  ];
+  };
 
   const designerWork = [
     {
@@ -90,7 +85,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-pink-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-orange-100">
+      <header className="bg-white shadow-sm border-b border-orange-100 sticky top-0 z-50">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
@@ -102,15 +97,75 @@ const Index = () => {
                 <p className="text-xs text-gray-600">Find Your Perfect Tailor</p>
               </div>
             </div>
+            
+            {/* Desktop Navigation */}
             <nav className="hidden md:flex items-center space-x-6">
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">Find Tailors</a>
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">Gallery</a>
-              <a href="#" className="text-gray-600 hover:text-orange-600 transition-colors">About</a>
-              <Button className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
+              <button 
+                onClick={() => scrollToSection("find-tailors")}
+                className={`transition-colors ${activeSection === "find-tailors" ? "text-orange-600 font-semibold" : "text-gray-600 hover:text-orange-600"}`}
+              >
+                Find Tailors
+              </button>
+              <button 
+                onClick={() => scrollToSection("gallery")}
+                className={`transition-colors ${activeSection === "gallery" ? "text-orange-600 font-semibold" : "text-gray-600 hover:text-orange-600"}`}
+              >
+                Gallery
+              </button>
+              <button 
+                onClick={() => scrollToSection("about")}
+                className={`transition-colors ${activeSection === "about" ? "text-orange-600 font-semibold" : "text-gray-600 hover:text-orange-600"}`}
+              >
+                About
+              </button>
+              <button 
+                onClick={() => scrollToSection("join-tailor")}
+                className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700 text-white px-4 py-2 rounded-md transition-all"
+              >
                 Join as Tailor
-              </Button>
+              </button>
             </nav>
+
+            {/* Mobile Menu Button */}
+            <button 
+              className="md:hidden"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
+
+          {/* Mobile Navigation */}
+          {mobileMenuOpen && (
+            <nav className="md:hidden mt-4 pb-4 border-t border-gray-200 pt-4">
+              <div className="flex flex-col space-y-3">
+                <button 
+                  onClick={() => scrollToSection("find-tailors")}
+                  className={`text-left transition-colors ${activeSection === "find-tailors" ? "text-orange-600 font-semibold" : "text-gray-600"}`}
+                >
+                  Find Tailors
+                </button>
+                <button 
+                  onClick={() => scrollToSection("gallery")}
+                  className={`text-left transition-colors ${activeSection === "gallery" ? "text-orange-600 font-semibold" : "text-gray-600"}`}
+                >
+                  Gallery
+                </button>
+                <button 
+                  onClick={() => scrollToSection("about")}
+                  className={`text-left transition-colors ${activeSection === "about" ? "text-orange-600 font-semibold" : "text-gray-600"}`}
+                >
+                  About
+                </button>
+                <button 
+                  onClick={() => scrollToSection("join-tailor")}
+                  className="bg-gradient-to-r from-orange-600 to-pink-600 text-white px-4 py-2 rounded-md text-left"
+                >
+                  Join as Tailor
+                </button>
+              </div>
+            </nav>
+          )}
         </div>
       </header>
 
@@ -133,8 +188,10 @@ const Index = () => {
                 <div className="flex items-center flex-1 px-4">
                   <Search className="w-5 h-5 text-gray-400 mr-3" />
                   <Input 
-                    placeholder="Search by service (e.g., bridal wear, alterations)" 
+                    placeholder="Search by service (e.g., bridal wear, men's formal)" 
                     className="border-0 focus:ring-0 text-lg"
+                    value={searchService}
+                    onChange={(e) => setSearchService(e.target.value)}
                   />
                 </div>
                 <div className="flex items-center flex-1 px-4 border-l border-gray-200">
@@ -142,9 +199,14 @@ const Index = () => {
                   <Input 
                     placeholder="Aurangabad location" 
                     className="border-0 focus:ring-0 text-lg"
+                    value={searchLocation}
+                    onChange={(e) => setSearchLocation(e.target.value)}
                   />
                 </div>
-                <Button className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700 px-8 py-3 text-lg">
+                <Button 
+                  onClick={handleSearch}
+                  className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700 px-8 py-3 text-lg"
+                >
                   Find Tailors
                 </Button>
               </div>
@@ -159,74 +221,40 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Featured Tailors */}
-      <section className="py-16 bg-white">
+      {/* Search Results or Featured Tailors */}
+      <section id="find-tailors" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Featured Tailors in Aurangabad</h3>
-            <p className="text-gray-600 max-w-2xl mx-auto">Discover skilled craftspeople who bring your vision to life with precision and creativity.</p>
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">
+              {showResults ? `Search Results (${searchResults.length} found)` : "Featured Tailors in Aurangabad"}
+            </h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              {showResults ? "Here are the tailors matching your search criteria." : "Discover skilled craftspeople who bring your vision to life with precision and creativity."}
+            </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredTailors.map((tailor) => (
-              <Card key={tailor.id} className="group hover:shadow-2xl transition-all duration-300 border border-orange-100 hover:border-orange-200">
-                <div className="relative overflow-hidden rounded-t-lg">
-                  <img 
-                    src={tailor.image} 
-                    alt={tailor.name}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <Button 
-                    size="sm" 
-                    className="absolute top-3 right-3 bg-white/90 hover:bg-white text-gray-700 p-2"
-                  >
-                    <Heart className="w-4 h-4" />
-                  </Button>
-                </div>
-                <CardContent className="p-6">
-                  <div className="flex items-start justify-between mb-3">
-                    <h4 className="text-lg font-semibold text-gray-800">{tailor.name}</h4>
-                    <div className="flex items-center">
-                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                      <span className="text-sm font-medium text-gray-700 ml-1">{tailor.rating}</span>
-                      <span className="text-sm text-gray-500 ml-1">({tailor.reviews})</span>
-                    </div>
-                  </div>
-                  
-                  <Badge className="bg-orange-100 text-orange-800 mb-3">{tailor.specialization}</Badge>
-                  
-                  <div className="space-y-2 text-sm text-gray-600">
-                    <div className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-2 text-gray-400" />
-                      {tailor.location}
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-4 h-4 mr-2 text-gray-400">₹</span>
-                      {tailor.priceRange}
-                    </div>
-                    <div className="flex items-center">
-                      <span className="w-4 h-4 mr-2 text-gray-400">🗣️</span>
-                      {tailor.languages.join(", ")}
-                    </div>
-                  </div>
-                  
-                  <div className="flex gap-2 mt-4">
-                    <Button className="flex-1 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
-                      Book Now
-                    </Button>
-                    <Button variant="outline" size="sm" className="border-orange-200 text-orange-600 hover:bg-orange-50">
-                      <Phone className="w-4 h-4" />
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
+            {(showResults ? searchResults : searchTailors("", "")).map((tailor) => (
+              <TailorCard key={tailor.id} tailor={tailor} />
             ))}
           </div>
+
+          {showResults && searchResults.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-600 text-lg">No tailors found matching your search criteria.</p>
+              <Button 
+                onClick={() => {setShowResults(false); setSearchService(""); setSearchLocation("");}}
+                className="mt-4 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700"
+              >
+                View All Tailors
+              </Button>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Designer Work Gallery */}
-      <section className="py-16 bg-gradient-to-br from-orange-50 to-pink-50">
+      <section id="gallery" className="py-16 bg-gradient-to-br from-orange-50 to-pink-50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">Stunning Designer Work</h3>
@@ -254,29 +282,70 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="py-16 bg-white">
+      {/* About Section */}
+      <section id="about" className="py-16 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h3 className="text-3xl font-bold text-gray-800 mb-4">Happy Customers</h3>
-            <p className="text-gray-600">See what our satisfied customers have to say about their experience.</p>
+          <div className="max-w-4xl mx-auto text-center">
+            <h3 className="text-3xl font-bold text-gray-800 mb-6">About Stitch Tales</h3>
+            <p className="text-lg text-gray-600 mb-8">
+              Stitch Tales is Aurangabad's premier platform connecting customers with skilled tailors and designers. 
+              We believe that everyone deserves perfectly fitted, beautifully crafted clothing that reflects their unique style.
+            </p>
+            <div className="grid md:grid-cols-3 gap-8 mb-12">
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Search className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl font-semibold text-gray-800 mb-2">Easy Discovery</h4>
+                <p className="text-gray-600">Find the perfect tailor based on your specific needs and location.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Star className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl font-semibold text-gray-800 mb-2">Quality Assured</h4>
+                <p className="text-gray-600">All our tailors are verified with ratings and reviews from real customers.</p>
+              </div>
+              <div className="text-center">
+                <div className="w-16 h-16 bg-gradient-to-br from-orange-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Clock className="w-8 h-8 text-white" />
+                </div>
+                <h4 className="text-xl font-semibold text-gray-800 mb-2">Quick Booking</h4>
+                <p className="text-gray-600">Book appointments instantly and track your order from start to finish.</p>
+              </div>
+            </div>
           </div>
-          
-          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="border border-orange-100">
-                <CardContent className="p-6 text-center">
+
+          {/* Testimonials */}
+          <div className="text-center mb-12">
+            <h4 className="text-2xl font-bold text-gray-800 mb-8">Happy Customers</h4>
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {testimonials.map((testimonial, index) => (
+                <div key={index} className="bg-gradient-to-br from-orange-50 to-pink-50 p-6 rounded-lg border border-orange-100">
                   <div className="flex justify-center mb-3">
                     {[...Array(testimonial.rating)].map((_, i) => (
                       <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                     ))}
                   </div>
                   <p className="text-gray-600 mb-4 italic">"{testimonial.review}"</p>
-                  <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
-                </CardContent>
-              </Card>
-            ))}
+                  <h5 className="font-semibold text-gray-800">{testimonial.name}</h5>
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
+
+      {/* Join as Tailor Section */}
+      <section id="join-tailor" className="py-16 bg-gradient-to-br from-orange-50 to-pink-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h3 className="text-3xl font-bold text-gray-800 mb-4">Join Our Community</h3>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Are you a skilled tailor or designer? Join our platform and connect with customers in Aurangabad who need your expertise.
+            </p>
+          </div>
+          <JoinTailorForm />
         </div>
       </section>
 
@@ -297,7 +366,7 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">For Customers</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Find Tailors</a></li>
+                <li><button onClick={() => scrollToSection("find-tailors")} className="hover:text-white transition-colors">Find Tailors</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Book Appointment</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Track Order</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Help & Support</a></li>
@@ -307,7 +376,7 @@ const Index = () => {
             <div>
               <h4 className="font-semibold mb-4">For Tailors</h4>
               <ul className="space-y-2 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Join as Tailor</a></li>
+                <li><button onClick={() => scrollToSection("join-tailor")} className="hover:text-white transition-colors">Join as Tailor</button></li>
                 <li><a href="#" className="hover:text-white transition-colors">Tailor Dashboard</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Pricing</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Resources</a></li>
