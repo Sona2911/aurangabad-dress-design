@@ -50,27 +50,39 @@ const Index = () => {
   const designerWork = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop",
       title: "Bridal Lehenga",
       designer: "Meera's Designer Studio"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=500&fit=crop",
       title: "Designer Saree Blouse",
       designer: "Silk Heritage Boutique"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1506629905607-c52a7f1714be?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
       title: "Wedding Sherwani",
       designer: "Royal Mens Tailoring"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1566479179817-2dc4b8b9abc4?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=500&fit=crop",
       title: "Party Gown",
       designer: "Fashion Forward Studio"
+    },
+    {
+      id: 5,
+      image: "https://images.unsplash.com/photo-1503944583220-79d8926ad5d2?w=400&h=500&fit=crop",
+      title: "Kids Party Dress",
+      designer: "Little Stars Kids Wear"
+    },
+    {
+      id: 6,
+      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop",
+      title: "Tailored Suit",
+      designer: "Classic Alterations"
     }
   ];
 
