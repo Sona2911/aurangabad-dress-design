@@ -17,23 +17,25 @@ const Index = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleSearch = () => {
+    console.log('Search triggered with:', { searchService, searchLocation });
     const results = searchTailors(searchService, searchLocation);
+    console.log('Search results:', results);
     setSearchResults(results);
     setShowResults(true);
     setActiveSection("find-tailors");
-  };
-
-  const scrollToSection = (sectionId: string) => {
-    setActiveSection(sectionId);
-    setMobileMenuOpen(false);
     
-    if (sectionId === "home") {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      const element = document.getElementById(sectionId);
+    // Scroll to results section
+    setTimeout(() => {
+      const element = document.getElementById("find-tailors");
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
+    }, 100);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
     }
   };
 
@@ -188,19 +190,21 @@ const Index = () => {
                 <div className="flex items-center flex-1 px-4">
                   <Search className="w-5 h-5 text-gray-400 mr-3" />
                   <Input 
-                    placeholder="Search by service (e.g., bridal wear, men's formal)" 
+                    placeholder="Search by service (e.g., bridal wear, men's formal, women's wear)" 
                     className="border-0 focus:ring-0 text-lg"
                     value={searchService}
                     onChange={(e) => setSearchService(e.target.value)}
+                    onKeyPress={handleKeyPress}
                   />
                 </div>
                 <div className="flex items-center flex-1 px-4 border-l border-gray-200">
                   <MapPin className="w-5 h-5 text-gray-400 mr-3" />
                   <Input 
-                    placeholder="Aurangabad location" 
+                    placeholder="Location in Aurangabad" 
                     className="border-0 focus:ring-0 text-lg"
                     value={searchLocation}
                     onChange={(e) => setSearchLocation(e.target.value)}
+                    onKeyPress={handleKeyPress}
                   />
                 </div>
                 <Button 
@@ -208,6 +212,42 @@ const Index = () => {
                   className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700 px-8 py-3 text-lg"
                 >
                   Find Tailors
+                </Button>
+              </div>
+              
+              {/* Quick Search Options */}
+              <div className="flex flex-wrap justify-center gap-2 mt-4">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {setSearchService("men's wear"); handleSearch();}}
+                  className="text-sm"
+                >
+                  Men's Wear
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {setSearchService("women's wear"); handleSearch();}}
+                  className="text-sm"
+                >
+                  Women's Wear
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {setSearchService("bridal wear"); handleSearch();}}
+                  className="text-sm"
+                >
+                  Bridal Wear
+                </Button>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => {setSearchService("formal wear"); handleSearch();}}
+                  className="text-sm"
+                >
+                  Formal Wear
                 </Button>
               </div>
             </div>
@@ -226,10 +266,22 @@ const Index = () => {
         <div className="container mx-auto px-4">
           <div className="text-center mb-12">
             <h3 className="text-3xl font-bold text-gray-800 mb-4">
-              {showResults ? `Search Results (${searchResults.length} found)` : "Featured Tailors in Aurangabad"}
+              {showResults ? 
+                (searchResults.length > 0 ? 
+                  `Search Results (${searchResults.length} found)` : 
+                  'No Tailors Found'
+                ) : 
+                "Featured Tailors in Aurangabad"
+              }
             </h3>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              {showResults ? "Here are the tailors matching your search criteria." : "Discover skilled craftspeople who bring your vision to life with precision and creativity."}
+              {showResults ? 
+                (searchResults.length > 0 ? 
+                  `Here are the tailors matching your search for "${searchService}" ${searchLocation ? `in ${searchLocation}` : ''}.` :
+                  `No tailors found matching your search criteria. Try different keywords or browse all tailors below.`
+                ) : 
+                "Discover skilled craftspeople who bring your vision to life with precision and creativity."
+              }
             </p>
           </div>
           
@@ -241,10 +293,14 @@ const Index = () => {
 
           {showResults && searchResults.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-gray-600 text-lg">No tailors found matching your search criteria.</p>
+              <p className="text-gray-600 text-lg mb-4">Try searching with different keywords or browse all our featured tailors:</p>
               <Button 
-                onClick={() => {setShowResults(false); setSearchService(""); setSearchLocation("");}}
-                className="mt-4 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700"
+                onClick={() => {
+                  setShowResults(false); 
+                  setSearchService(""); 
+                  setSearchLocation("");
+                }}
+                className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700"
               >
                 View All Tailors
               </Button>

@@ -87,6 +87,32 @@ export const getStoredTailors = (): Tailor[] => {
       languages: ["Hindi", "Marathi"],
       phone: "+91 98765 43214",
       description: "Casual shirts, pants and everyday wear for men."
+    },
+    {
+      id: '6',
+      name: "Elite Women's Boutique",
+      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=300&fit=crop",
+      rating: 4.8,
+      reviews: 175,
+      specialization: "Women's Wear",
+      location: "Osmanpura, Aurangabad",
+      priceRange: "₹1200-5000",
+      languages: ["Hindi", "Marathi", "English"],
+      phone: "+91 98765 43215",
+      description: "Designer women's clothing and ethnic wear."
+    },
+    {
+      id: '7',
+      name: "Groom's Choice",
+      image: "https://images.unsplash.com/photo-1594623930572-300a3011d9ae?w=400&h=300&fit=crop",
+      rating: 4.7,
+      reviews: 134,
+      specialization: "Mens Wear",
+      location: "Paithan Gate, Aurangabad",
+      priceRange: "₹1800-6000",
+      languages: ["Hindi", "Marathi"],
+      phone: "+91 98765 43216",
+      description: "Specialized in groom's wear and traditional men's clothing."
     }
   ];
   
@@ -106,9 +132,34 @@ export const addTailor = (tailor: Omit<Tailor, 'id'>): void => {
 
 export const searchTailors = (service: string, location: string): Tailor[] => {
   const tailors = getStoredTailors();
-  return tailors.filter(tailor => {
-    const serviceMatch = !service || tailor.specialization.toLowerCase().includes(service.toLowerCase());
-    const locationMatch = !location || tailor.location.toLowerCase().includes(location.toLowerCase());
+  
+  console.log('Searching with:', { service, location });
+  console.log('Available tailors:', tailors.length);
+  
+  // If no search criteria, return all tailors
+  if (!service.trim() && !location.trim()) {
+    return tailors;
+  }
+  
+  const filtered = tailors.filter(tailor => {
+    // Check service match (more flexible matching)
+    const serviceMatch = !service.trim() || 
+      tailor.specialization.toLowerCase().includes(service.toLowerCase()) ||
+      tailor.description.toLowerCase().includes(service.toLowerCase()) ||
+      (service.toLowerCase().includes('men') && tailor.specialization.toLowerCase().includes('men')) ||
+      (service.toLowerCase().includes('women') && tailor.specialization.toLowerCase().includes('women')) ||
+      (service.toLowerCase().includes('bridal') && tailor.specialization.toLowerCase().includes('bridal')) ||
+      (service.toLowerCase().includes('casual') && tailor.specialization.toLowerCase().includes('casual')) ||
+      (service.toLowerCase().includes('formal') && tailor.specialization.toLowerCase().includes('formal'));
+    
+    // Check location match (more flexible matching)
+    const locationMatch = !location.trim() || 
+      tailor.location.toLowerCase().includes(location.toLowerCase()) ||
+      location.toLowerCase().includes('aurangabad'); // Since all tailors are in Aurangabad region
+    
     return serviceMatch && locationMatch;
   });
+  
+  console.log('Filtered results:', filtered.length);
+  return filtered;
 };
