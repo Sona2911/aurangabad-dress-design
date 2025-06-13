@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Search, MapPin, Star, Heart, Phone, Clock, Award, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,30 +38,39 @@ const Index = () => {
     }
   };
 
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setActiveSection(sectionId);
+    setMobileMenuOpen(false);
+  };
+
   const designerWork = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?w=400&h=500&fit=crop",
       title: "Bridal Lehenga",
       designer: "Meera's Designer Studio"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=400&h=500&fit=crop",
       title: "Designer Saree Blouse",
       designer: "Silk Heritage Boutique"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1506629905607-c52a7f1714be?w=400&h=500&fit=crop",
       title: "Wedding Sherwani",
       designer: "Royal Mens Tailoring"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1501854140801-50d01698950b?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1566479179817-2dc4b8b9abc4?w=400&h=500&fit=crop",
       title: "Party Gown",
-      designer: "Meera's Designer Studio"
+      designer: "Fashion Forward Studio"
     }
   ];
 
