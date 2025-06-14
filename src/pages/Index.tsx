@@ -1,8 +1,9 @@
+
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Scissors, Search, MapPin, Calendar } from "lucide-react";
+import { Scissors, Search, MapPin, Calendar, User, Image, Info, Home } from "lucide-react";
 import TailorCard from "@/components/TailorCard";
 import { getTailors, searchTailors, Tailor } from "@/utils/localStorage";
 import { Link } from "react-router-dom";
@@ -29,13 +30,31 @@ const Index = () => {
                 TailorBook
               </span>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="hidden md:flex items-center space-x-6">
+              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                <Home className="w-4 h-4 mr-2" />
+                Home
+              </Button>
+              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                <Info className="w-4 h-4 mr-2" />
+                About Us
+              </Button>
+              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                <Image className="w-4 h-4 mr-2" />
+                Gallery
+              </Button>
+              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                <User className="w-4 h-4 mr-2" />
+                Services
+              </Button>
               <Link to="/bookings">
                 <Button variant="outline" className="border-orange-200 text-orange-600 hover:bg-orange-50">
                   <Calendar className="w-4 h-4 mr-2" />
                   View Bookings
                 </Button>
               </Link>
+            </div>
+            <div className="flex items-center space-x-4">
               <Button className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
                 Join as Tailor
               </Button>
