@@ -4,12 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tailor } from "@/utils/localStorage";
+import BookingModal from "./BookingModal";
 
 interface TailorCardProps {
   tailor: Tailor;
 }
 
 const TailorCard = ({ tailor }: TailorCardProps) => {
+  const handlePhoneCall = () => {
+    window.open(`tel:${tailor.phone}`, '_self');
+  };
+
   return (
     <Card className="group hover:shadow-2xl transition-all duration-300 border border-orange-100 hover:border-orange-200">
       <div className="relative overflow-hidden rounded-t-lg">
@@ -17,6 +22,10 @@ const TailorCard = ({ tailor }: TailorCardProps) => {
           src={tailor.image} 
           alt={tailor.name}
           className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=300&fit=crop&crop=center";
+          }}
         />
         <Button 
           size="sm" 
@@ -55,10 +64,17 @@ const TailorCard = ({ tailor }: TailorCardProps) => {
         </div>
         
         <div className="flex gap-2 mt-4">
-          <Button className="flex-1 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
-            Book Now
-          </Button>
-          <Button variant="outline" size="sm" className="border-orange-200 text-orange-600 hover:bg-orange-50">
+          <BookingModal tailor={tailor}>
+            <Button className="flex-1 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
+              Book Now
+            </Button>
+          </BookingModal>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            className="border-orange-200 text-orange-600 hover:bg-orange-50"
+            onClick={handlePhoneCall}
+          >
             <Phone className="w-4 h-4" />
           </Button>
         </div>
