@@ -50,25 +50,25 @@ const Index = () => {
   const designerWork = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1566479179817-c0e8e5c79a5c?w=300&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=400&fit=crop",
       title: "Bridal Lehenga",
       designer: "Meera's Designer Studio"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=300&h=400&fit=crop",
       title: "Designer Saree Blouse",
       designer: "Silk Heritage Boutique"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1617137968347-bb9b334f2de7?w=300&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=400&fit=crop",
       title: "Wedding Sherwani",
       designer: "Royal Mens Tailoring"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=300&h=400&fit=crop",
+      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=400&fit=crop",
       title: "Party Gown",
       designer: "Fashion Forward Studio"
     },

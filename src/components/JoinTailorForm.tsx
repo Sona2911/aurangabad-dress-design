@@ -1,7 +1,8 @@
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { addTailor } from "@/utils/localStorage";
@@ -11,141 +12,198 @@ const JoinTailorForm = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: "",
-    location: "",
+    image: "",
     specialization: "",
+    location: "",
     priceRange: "",
+    languages: [] as string[],
     phone: "",
-    description: "",
-    languages: "Hindi, Marathi"
+    description: ""
   });
-
-  const specializations = [
-    "Bridal Wear", "Men's Formal", "Women's Casual", "Men's Casual", 
-    "Saree Blouses", "Kids Wear", "Alterations", "Traditional Wear"
-  ];
+  
+  const [languageInput, setLanguageInput] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.location || !formData.specialization) {
+    if (!formData.name || !formData.specialization || !formData.location || !formData.phone) {
       toast({
         title: "Error",
         description: "Please fill in all required fields.",
-        variant: "destructive"
+        variant: "destructive",
       });
       return;
     }
 
-    addTailor({
-      ...formData,
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=300&fit=crop",
-      rating: 4.0,
-      reviews: 0,
-      languages: formData.languages.split(",").map(lang => lang.trim())
-    });
+    try {
+      addTailor({
+        ...formData,
+        image: formData.image || "https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=300&h=200&fit=crop"
+      });
+      
+      toast({
+        title: "Success!",
+        description: "Your tailor profile has been submitted successfully.",
+      });
+      
+      // Reset form
+      setFormData({
+        name: "",
+        image: "",
+        specialization: "",
+        location: "",
+        priceRange: "",
+        languages: [],
+        phone: "",
+        description: ""
+      });
+      setLanguageInput("");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
 
-    toast({
-      title: "Success!",
-      description: "Your tailor profile has been created successfully."
-    });
+  const addLanguage = () => {
+    if (languageInput.trim() && !formData.languages.includes(languageInput.trim())) {
+      setFormData(prev => ({
+        ...prev,
+        languages: [...prev.languages, languageInput.trim()]
+      }));
+      setLanguageInput("");
+    }
+  };
 
-    setFormData({
-      name: "",
-      location: "",
-      specialization: "",
-      priceRange: "",
-      phone: "",
-      description: "",
-      languages: "Hindi, Marathi"
-    });
+  const removeLanguage = (language: string) => {
+    setFormData(prev => ({
+      ...prev,
+      languages: prev.languages.filter(lang => lang !== language)
+    }));
   };
 
   return (
     <div className="max-w-2xl mx-auto">
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-2xl text-center text-gray-800">Join as a Tailor</CardTitle>
-          <p className="text-center text-gray-600">Start connecting with customers in Aurangabad</p>
+      <Card className="border border-orange-200 shadow-lg">
+        <CardHeader className="bg-gradient-to-r from-orange-50 to-pink-50">
+          <CardTitle className="text-2xl text-gray-800">Join as a Tailor</CardTitle>
+          <p className="text-gray-600">Share your skills and connect with customers in Aurangabad</p>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="p-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Name *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Business Name *
+                </label>
                 <Input
                   value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  placeholder="Your business name"
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  placeholder="e.g., Meera's Designer Studio"
                   required
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Location *</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Phone Number *
+                </label>
                 <Input
-                  value={formData.location}
-                  onChange={(e) => setFormData({...formData, location: e.target.value})}
-                  placeholder="Area, Aurangabad"
+                  value={formData.phone}
+                  onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
+                  placeholder="+91 98765 43210"
                   required
                 />
               </div>
             </div>
 
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Specialization *
+                </label>
+                <Input
+                  value={formData.specialization}
+                  onChange={(e) => setFormData(prev => ({ ...prev, specialization: e.target.value }))}
+                  placeholder="e.g., Bridal Wear, Men's Formal"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Location *
+                </label>
+                <Input
+                  value={formData.location}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location: e.target.value }))}
+                  placeholder="e.g., Cidco, Aurangabad"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Price Range
+                </label>
+                <Input
+                  value={formData.priceRange}
+                  onChange={(e) => setFormData(prev => ({ ...prev, priceRange: e.target.value }))}
+                  placeholder="e.g., ₹2000-8000"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Portfolio Image URL
+                </label>
+                <Input
+                  value={formData.image}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Specialization *</label>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                {specializations.map((spec) => (
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Languages Spoken
+              </label>
+              <div className="flex gap-2 mb-2">
+                <Input
+                  value={languageInput}
+                  onChange={(e) => setLanguageInput(e.target.value)}
+                  placeholder="Add a language"
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addLanguage())}
+                />
+                <Button type="button" onClick={addLanguage} variant="outline">
+                  Add
+                </Button>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {formData.languages.map((language) => (
                   <Badge
-                    key={spec}
-                    variant={formData.specialization === spec ? "default" : "outline"}
-                    className={`cursor-pointer text-center justify-center py-2 ${
-                      formData.specialization === spec 
-                        ? "bg-orange-600 hover:bg-orange-700" 
-                        : "hover:bg-orange-50"
-                    }`}
-                    onClick={() => setFormData({...formData, specialization: spec})}
+                    key={language}
+                    variant="secondary"
+                    className="cursor-pointer bg-orange-100 text-orange-800 hover:bg-orange-200"
+                    onClick={() => removeLanguage(language)}
                   >
-                    {spec}
+                    {language} ×
                   </Badge>
                 ))}
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Price Range</label>
-                <Input
-                  value={formData.priceRange}
-                  onChange={(e) => setFormData({...formData, priceRange: e.target.value})}
-                  placeholder="₹500-2000"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-                <Input
-                  value={formData.phone}
-                  onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  placeholder="+91 98765 43210"
-                />
-              </div>
-            </div>
-
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Languages</label>
-              <Input
-                value={formData.languages}
-                onChange={(e) => setFormData({...formData, languages: e.target.value})}
-                placeholder="Hindi, Marathi, English"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
-              <textarea
-                className="flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                rows={3}
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Description
+              </label>
+              <Textarea
                 value={formData.description}
-                onChange={(e) => setFormData({...formData, description: e.target.value})}
-                placeholder="Brief description of your services..."
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                placeholder="Tell customers about your expertise and services..."
+                rows={4}
               />
             </div>
 
@@ -153,7 +211,7 @@ const JoinTailorForm = () => {
               type="submit" 
               className="w-full bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700"
             >
-              Join as Tailor
+              Submit Application
             </Button>
           </form>
         </CardContent>

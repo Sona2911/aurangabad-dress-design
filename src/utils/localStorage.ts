@@ -17,7 +17,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "1",
     name: "Meera's Designer Studio",
-    image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1566479179817-c0e8e5c79a5c?w=400&h=300&fit=crop",
     rating: 4.8,
     reviews: 127,
     specialization: "Bridal Wear",
@@ -30,7 +30,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "2",
     name: "Royal Mens Tailoring",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1617137968347-bb9b334f2de7?w=400&h=300&fit=crop",
     rating: 4.6,
     reviews: 89,
     specialization: "Men's Formal",
@@ -43,7 +43,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "3",
     name: "Silk Heritage Boutique",
-    image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=300&fit=crop",
     rating: 4.7,
     reviews: 156,
     specialization: "Saree Blouses",
@@ -56,7 +56,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "4",
     name: "Fashion Forward Studio",
-    image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=400&h=300&fit=crop",
     rating: 4.5,
     reviews: 73,
     specialization: "Women's Casual",
@@ -69,7 +69,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "5",
     name: "Little Stars Kids Wear",
-    image: "https://images.unsplash.com/photo-1503944583220-79d8926ad5d2?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1503944583220-79d8926ad5d2?w=400&h=300&fit=crop",
     rating: 4.4,
     reviews: 92,
     specialization: "Kids Wear",
@@ -82,7 +82,7 @@ const defaultTailors: Tailor[] = [
   {
     id: "6",
     name: "Classic Alterations",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=300&h=200&fit=crop",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=300&fit=crop",
     rating: 4.3,
     reviews: 245,
     specialization: "Alterations",
