@@ -50,37 +50,37 @@ const Index = () => {
   const designerWork = [
     {
       id: 1,
-      image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1566479179817-c0e8e5c79a5c?w=300&h=400&fit=crop",
       title: "Bridal Lehenga",
       designer: "Meera's Designer Studio"
     },
     {
       id: 2,
-      image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=300&h=400&fit=crop",
       title: "Designer Saree Blouse",
       designer: "Silk Heritage Boutique"
     },
     {
       id: 3,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1617137968347-bb9b334f2de7?w=300&h=400&fit=crop",
       title: "Wedding Sherwani",
       designer: "Royal Mens Tailoring"
     },
     {
       id: 4,
-      image: "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1485462537746-965f33f7f6a7?w=300&h=400&fit=crop",
       title: "Party Gown",
       designer: "Fashion Forward Studio"
     },
     {
       id: 5,
-      image: "https://images.unsplash.com/photo-1503944583220-79d8926ad5d2?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1518831959646-742c3a14ebf7?w=300&h=400&fit=crop",
       title: "Kids Party Dress",
       designer: "Little Stars Kids Wear"
     },
     {
       id: 6,
-      image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=400&h=500&fit=crop",
+      image: "https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=300&h=400&fit=crop",
       title: "Tailored Suit",
       designer: "Classic Alterations"
     }
@@ -273,7 +273,7 @@ const Index = () => {
             </div>
             
             <div className="flex flex-wrap justify-center gap-4 text-sm text-gray-600">
-              <span className="flex items-center"><Award className="w-4 h-4 mr-1 text-orange-600" /> 500+ Verified Tailors</span>
+              <span className="flex items-center"><Award className="w-4 h-4 mr-1 text-orange-600" /> 100+ Verified Tailors</span>
               <span className="flex items-center"><Star className="w-4 h-4 mr-1 text-orange-600" /> 4.8 Average Rating</span>
               <span className="flex items-center"><Clock className="w-4 h-4 mr-1 text-orange-600" /> Quick Booking</span>
             </div>
