@@ -16,8 +16,8 @@ const TailorCard = ({ tailor }: TailorCardProps) => {
   };
 
   return (
-    <Card className="group hover:shadow-2xl transition-all duration-300 border border-orange-100 hover:border-orange-200">
-      <div className="relative overflow-hidden rounded-t-lg">
+    <Card className="group hover:shadow-2xl transition-all duration-300 border border-orange-100 hover:border-orange-200 overflow-hidden">
+      <div className="relative overflow-hidden">
         <img 
           src={tailor.image} 
           alt={tailor.name}
@@ -29,50 +29,60 @@ const TailorCard = ({ tailor }: TailorCardProps) => {
         />
         <Button 
           size="sm" 
-          className="absolute top-3 right-3 bg-white/90 hover:bg-white text-gray-700 p-2"
+          className="absolute top-3 right-3 bg-white/90 hover:bg-white text-gray-700 p-2 rounded-full shadow-lg"
         >
           <Heart className="w-4 h-4" />
         </Button>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+          <div className="flex items-center justify-between text-white">
+            <div>
+              <div className="flex items-center mb-1">
+                <Star className="w-4 h-4 text-yellow-400 fill-current mr-1" />
+                <span className="font-semibold">{tailor.rating}</span>
+                <span className="text-sm opacity-80 ml-1">({tailor.reviews})</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+      
       <CardContent className="p-6">
-        <div className="flex items-start justify-between mb-3">
-          <h4 className="text-lg font-semibold text-gray-800">{tailor.name}</h4>
+        <div className="mb-3">
+          <h4 className="text-lg font-semibold text-gray-800 mb-1">{tailor.name}</h4>
+          <Badge className="bg-orange-100 text-orange-800 text-xs px-2 py-1">
+            {tailor.specialization}
+          </Badge>
+        </div>
+        
+        <p className="text-sm text-gray-600 mb-4 line-clamp-2">
+          {tailor.description}
+        </p>
+        
+        <div className="space-y-2 text-sm text-gray-600 mb-4">
           <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="text-sm font-medium text-gray-700 ml-1">{tailor.rating}</span>
-            <span className="text-sm text-gray-500 ml-1">({tailor.reviews})</span>
+            <MapPin className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0" />
+            <span className="truncate">{tailor.location}</span>
+          </div>
+          <div className="flex items-center">
+            <span className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0">₹</span>
+            <span>{tailor.priceRange}</span>
+          </div>
+          <div className="flex items-center">
+            <span className="w-4 h-4 mr-2 text-gray-400 flex-shrink-0">🗣️</span>
+            <span className="truncate">{tailor.languages.join(", ")}</span>
           </div>
         </div>
         
-        <Badge className="bg-orange-100 text-orange-800 mb-3">{tailor.specialization}</Badge>
-        
-        <p className="text-sm text-gray-600 mb-3">{tailor.description}</p>
-        
-        <div className="space-y-2 text-sm text-gray-600">
-          <div className="flex items-center">
-            <MapPin className="w-4 h-4 mr-2 text-gray-400" />
-            {tailor.location}
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 mr-2 text-gray-400">₹</span>
-            {tailor.priceRange}
-          </div>
-          <div className="flex items-center">
-            <span className="w-4 h-4 mr-2 text-gray-400">🗣️</span>
-            {tailor.languages.join(", ")}
-          </div>
-        </div>
-        
-        <div className="flex gap-2 mt-4">
+        <div className="flex gap-2">
           <BookingModal tailor={tailor}>
-            <Button className="flex-1 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
+            <Button className="flex-1 bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700 text-white font-medium h-10">
               Book Now
             </Button>
           </BookingModal>
           <Button 
             variant="outline" 
             size="sm" 
-            className="border-orange-200 text-orange-600 hover:bg-orange-50"
+            className="border-orange-200 text-orange-600 hover:bg-orange-50 px-3"
             onClick={handlePhoneCall}
           >
             <Phone className="w-4 h-4" />
