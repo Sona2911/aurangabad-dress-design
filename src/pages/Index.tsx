@@ -3,8 +3,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Scissors, Search, MapPin, Calendar, User, Image, Info, Home, Star, Clock } from "lucide-react";
+import { Scissors, Search, MapPin, Calendar, User, Image, Info, Home, Star, Clock, X } from "lucide-react";
 import TailorCard from "@/components/TailorCard";
+import JoinTailorForm from "@/components/JoinTailorForm";
 import { getTailors, searchTailors, Tailor } from "@/utils/localStorage";
 import { Link } from "react-router-dom";
 
@@ -13,6 +14,7 @@ const Index = () => {
   const [service, setService] = useState("");
   const [location, setLocation] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [showJoinForm, setShowJoinForm] = useState(false);
 
   const categories = [
     "Men's Wear",
@@ -88,13 +90,43 @@ const Index = () => {
               </Link>
             </div>
             <div className="flex items-center space-x-4">
-              <Button className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700">
+              <Button 
+                className="bg-gradient-to-r from-orange-600 to-pink-600 hover:from-orange-700 hover:to-pink-700"
+                onClick={() => setShowJoinForm(true)}
+              >
                 Join as Tailor
               </Button>
             </div>
           </div>
         </div>
       </nav>
+
+      {/* Join as Tailor Modal */}
+      {showJoinForm && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto relative">
+            <div className="sticky top-0 bg-white border-b px-6 py-4 flex items-center justify-between">
+              <h2 className="text-2xl font-bold text-gray-800">Join Our Community</h2>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={() => setShowJoinForm(false)}
+                className="hover:bg-gray-100"
+              >
+                <X className="w-5 h-5" />
+              </Button>
+            </div>
+            <div className="p-6">
+              <div className="text-center mb-8">
+                <p className="text-gray-600 max-w-2xl mx-auto">
+                  Are you a skilled tailor or designer? Join our platform and connect with customers in Aurangabad who need your expertise.
+                </p>
+              </div>
+              <JoinTailorForm />
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-orange-50 to-pink-50 py-16">
