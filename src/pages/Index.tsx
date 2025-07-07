@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -72,12 +71,16 @@ const Index = () => {
               <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
                 Find Tailors
               </Button>
-              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
-                Gallery
-              </Button>
-              <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
-                About
-              </Button>
+              <Link to="/gallery">
+                <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                  Gallery
+                </Button>
+              </Link>
+              <Link to="/about">
+                <Button variant="ghost" className="text-gray-600 hover:text-orange-600">
+                  About
+                </Button>
+              </Link>
               <Link to="/bookings">
                 <Button variant="outline" className="border-orange-200 text-orange-600 hover:bg-orange-50">
                   View Bookings
@@ -279,8 +282,55 @@ const Index = () => {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* Happy Customers Section */}
       <section className="bg-gradient-to-br from-orange-50 to-pink-50 py-16">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-800 mb-4">
+              Happy Customers
+            </h2>
+          </div>
+          
+          <div className="grid md:grid-cols-3 gap-8">
+            <Card className="p-6 text-center">
+              <div className="flex justify-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 italic mb-4">
+                "Amazing experience! My bridal lehenga was exactly what I dreamed of."
+              </p>
+              <p className="font-semibold text-gray-800">Priya Sharma</p>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="flex justify-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 italic mb-4">
+                "Perfect fit and excellent craftsmanship for my wedding suit."
+              </p>
+              <p className="font-semibold text-gray-800">Rajesh Patil</p>
+            </Card>
+            <Card className="p-6 text-center">
+              <div className="flex justify-center mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                ))}
+              </div>
+              <p className="text-gray-600 italic mb-4">
+                "Quick delivery and beautiful blouse designs. Highly recommended!"
+              </p>
+              <p className="font-semibold text-gray-800">Anita Desai</p>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="bg-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-gray-800 mb-8">
             About Stitch Tales
@@ -314,6 +364,58 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-4 gap-8">
+            <div>
+              <div className="flex items-center space-x-2 mb-4">
+                <div className="w-10 h-10 bg-gradient-to-r from-orange-600 to-pink-600 rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold text-lg">ST</span>
+                </div>
+                <span className="text-xl font-bold">Stitch Tales</span>
+              </div>
+              <p className="text-gray-400">
+                Connecting customers with skilled tailors across Aurangabad region.
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">For Customers</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white">Find Tailors</a></li>
+                <li><a href="#" className="hover:text-white">Book Appointment</a></li>
+                <li><a href="#" className="hover:text-white">Track Order</a></li>
+                <li><a href="#" className="hover:text-white">Help & Support</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">For Tailors</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li><a href="#" className="hover:text-white">Join as Tailor</a></li>
+                <li><a href="#" className="hover:text-white">Tailor Dashboard</a></li>
+                <li><a href="#" className="hover:text-white">Pricing</a></li>
+                <li><a href="#" className="hover:text-white">Resources</a></li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-semibold mb-4">Contact</h4>
+              <ul className="space-y-2 text-gray-400">
+                <li>📧 hello@stitchtales.com</li>
+                <li>📞 +91 98765 43210</li>
+                <li>📍 Aurangabad, Maharashtra</li>
+              </ul>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+            <p>© 2024 Stitch Tales. All rights reserved. | Designed by Sonali Kotlapure</p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
